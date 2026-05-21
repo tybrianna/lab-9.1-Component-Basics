@@ -1,49 +1,42 @@
-import React from "react";
-import { UserProfileCardProps } from "./types";
+import React from 'react';
+import { UserProfileCardProps } from '../types';
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({
+export const UserProfileCard: React.FC<UserProfileCardProps> = ({
   user,
   showEmail = true,
   showRole = true,
   onEdit,
-  children,
+  children
 }) => {
   return (
-    <div className="border rounded-lg p-4 shadow-sm w-full max-w-sm">
-      <div className="flex items-center gap-4">
+    <div
+      style={{
+        border: '1px solid gray',
+        padding: '1rem',
+        borderRadius: '8px'
+      }}
+    >
+      {user.avatarUrl && (
         <img
-          src={user.avatarUrl || "https://via.placeholder.com/50"}
+          src={user.avatarUrl}
           alt={user.name}
-          className="w-12 h-12 rounded-full object-cover"
+          width="100"
         />
+      )}
 
-        <div>
-          <h3 className="font-semibold">{user.name}</h3>
+      <h2>{user.name}</h2>
 
-          {showEmail && (
-            <p className="text-sm text-gray-600">{user.email}</p>
-          )}
+      {showEmail && <p>{user.email}</p>}
 
-          {showRole && (
-            <p className="text-xs text-gray-500">{user.role}</p>
-          )}
-        </div>
-      </div>
+      {showRole && <p>{user.role}</p>}
 
-      {/* Children slot */}
-      {children && <div className="mt-3">{children}</div>}
-
-      {/* Edit button only if handler exists */}
       {onEdit && (
-        <button
-          onClick={() => onEdit(user.id)}
-          className="mt-3 text-blue-600 text-sm font-medium hover:underline"
-        >
+        <button onClick={() => onEdit(user.id)}>
           Edit Profile
         </button>
       )}
+
+      {children}
     </div>
   );
 };
-
-export default UserProfileCard;

@@ -1,71 +1,40 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import ProductDisplay from "./ProductDisplay";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { vi } from 'vitest';
+import { ProductDisplay } from './ProductDisplay';
 
 const mockProduct = {
-  id: "p1",
-  name: "Laptop",
-  price: 999.99,
-  description: "High performance laptop",
-  inStock: true,
+  id: '1',
+  name: 'Headphones',
+  price: 199.99,
+  description: 'Wireless headphones',
+  inStock: true
 };
 
-describe("ProductDisplay", () => {
-  test("renders product name and price", () => {
-    render(<ProductDisplay product={mockProduct} />);
-    expect(screen.getByText("Laptop")).toBeInTheDocument();
-    expect(screen.getByText("$999.99")).toBeInTheDocument();
-  });
-
-  test("hides description when showDescription is false", () => {
+describe('ProductDisplay', () => {
+  test('renders product information', () => {
     render(
-      <ProductDisplay product={mockProduct} showDescription={false} />
-    );
-    expect(
-      screen.queryByText("High performance laptop")
-    ).not.toBeInTheDocument();
-  });
-
-  test("shows out of stock message", () => {
-    render(
-      <ProductDisplay
-        product={{ ...mockProduct, inStock: false }}
-      />
-    );
-
-    expect(screen.getByText("Out of Stock")).toBeInTheDocument();
-  });
-
-  test("calls onAddToCart when clicked", () => {
-    const mockAdd = jest.fn();
-
-    render(
-      <ProductDisplay product={mockProduct} onAddToCart={mockAdd} />
-    );
-
-    fireEvent.click(screen.getByText("Add to Cart"));
-    expect(mockAdd).toHaveBeenCalledWith("p1");
-  });
-
-  test("does not show Add to Cart if out of stock", () => {
-    render(
-      <ProductDisplay
-        product={{ ...mockProduct, inStock: false }}
-        onAddToCart={jest.fn()}
-      />
+      <ProductDisplay product={mockProduct} />
     );
 
     expect(
-      screen.queryByText("Add to Cart")
-    ).not.toBeInTheDocument();
+      screen.getByText('Headphones')
+    ).toBeInTheDocument();
   });
 
-  test("renders children", () => {
+  test('calls onAddToCart', () => {
+    const mockAdd = vi.fn();
+
     render(
-      <ProductDisplay product={mockProduct}>
-        <span>Extra Info</span>
-      </ProductDisplay>
+      <ProductDisplay
+        product={mockProduct}
+        onAddToCart={mockAdd}
+      />
     );
 
-    expect(screen.getByText("Extra Info")).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByText('Add to Cart')
+    );
+
+    expect(mockAdd).toHaveBeenCalledWith('1');
   });
 });

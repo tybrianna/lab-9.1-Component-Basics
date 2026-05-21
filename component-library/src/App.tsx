@@ -1,61 +1,81 @@
-import React, { useState } from "react";
-import AlertBox from "./components/AlertBox";
-import UserProfileCard from "./components/UserProfileCard";
-import ProductDisplay from "./components/ProductDisplay";
+import { useState } from 'react';
 
-import { User, Product } from "./types";
+import { AlertBox } from './components/AlertBox/AlertBox';
+import { UserProfileCard } from './components/UserProfileCard/UserProfileCard';
+import { ProductDisplay } from './components/ProductDisplay/ProductDisplay';
 
-const App: React.FC = () => {
-  const [alert, setAlert] = useState<string | null>(null);
+function App() {
+  const [showAlert, setShowAlert] = useState(false);
 
-  const user: User = {
-    id: "u1",
-    name: "Tybrianna Hall",
-    email: "tybrianna@example.com",
-    role: "Property Manager",
+  const user = {
+    id: '1',
+    name: 'Ty',
+    email: 'Tyh01@example.com',
+    role: 'Software Engineer',
+    avatarUrl:
+      'https://via.placeholder.com/100'
   };
 
-  const product: Product = {
-    id: "p1",
-    name: "Smart Watch",
+  const product = {
+    id: '1',
+    name: 'Wireless Headphones',
     price: 199.99,
-    description: "Track your fitness and notifications",
-    inStock: true,
+    description:
+      'High-quality wireless headphones.',
+    imageUrl:
+      'https://via.placeholder.com/150',
+    inStock: true
   };
 
-  const handleEditUser = (userId: string) => {
-    setAlert(`Editing user with ID: ${userId}`);
-  };
-
-  const handleAddToCart = (productId: string) => {
-    setAlert(`Added product ${productId} to cart`);
+  const handleAddToCart = (
+    productId: string
+  ) => {
+    alert(`Added product ${productId}`);
+    setShowAlert(true);
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {alert && (
+    <div style={{ padding: '2rem' }}>
+      {showAlert && (
         <AlertBox
           type="success"
-          message={alert}
-          onClose={() => setAlert(null)}
+          message="Product added to cart!"
+          onClose={() => setShowAlert(false)}
         >
-          <span>This action was successful.</span>
+          <p>Item successfully added.</p>
         </AlertBox>
       )}
 
-      <UserProfileCard user={user} onEdit={handleEditUser}>
-        <button className="text-sm text-purple-600">
-          View Activity
-        </button>
-      </UserProfileCard>
+      <div
+        style={{
+          display: 'grid',
+          gap: '2rem'
+        }}
+      >
+        <UserProfileCard
+          user={user}
+          showEmail={true}
+          showRole={true}
+          onEdit={(id) =>
+            alert(`Editing user ${id}`)
+          }
+        >
+          <small>Last login: 2 hours ago</small>
+        </UserProfileCard>
 
-      <ProductDisplay product={product} onAddToCart={handleAddToCart}>
-        <p className="text-xs text-gray-500">
-          Free shipping included
-        </p>
-      </ProductDisplay>
+        <ProductDisplay
+          product={product}
+          showDescription={true}
+          showStockStatus={true}
+          onAddToCart={handleAddToCart}
+        >
+          <small>
+            Free shipping available
+          </small>
+        </ProductDisplay>
+      </div>
     </div>
   );
-};
+}
 
 export default App;
