@@ -1,4 +1,4 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 
 export type AlertType = 'success' | 'error' | 'warning' | 'info';
 
@@ -6,7 +6,7 @@ export interface AlertBoxProps {
   type: AlertType;
   message: string;
   onClose?: () => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export interface User {
@@ -22,7 +22,7 @@ export interface UserProfileCardProps {
   showEmail?: boolean;
   showRole?: boolean;
   onEdit?: (userId: string) => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 export interface Product {
@@ -39,5 +39,5 @@ export interface ProductDisplayProps {
   showDescription?: boolean;
   showStockStatus?: boolean;
   onAddToCart?: (productId: string) => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }

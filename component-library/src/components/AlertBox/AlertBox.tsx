@@ -1,22 +1,20 @@
-import React from 'react';
-
 type AlertBoxProps = {
   type: 'success' | 'error' | 'info';
   message: string;
   onClose?: () => void;
 };
 
-export const AlertBox: React.FC<AlertBoxProps> = ({
+export const AlertBox = ({
   type,
   message,
   onClose
-}) => {
+}: AlertBoxProps) => {
   return (
-    <div>
+    <div className={`alert alert-${type}`}>
       <p>{message}</p>
 
       {onClose && (
-        <button onClick={onClose}>×</button>
+        <button onClick={onClose}>x</button>
       )}
     </div>
   );

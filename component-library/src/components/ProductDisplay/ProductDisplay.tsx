@@ -1,5 +1,5 @@
+import type { ProductDisplayProps } from '../../types';
 import React from 'react';
-import { ProductDisplayProps } from '../types';
 
 export const ProductDisplay: React.FC<ProductDisplayProps> = ({
   product,
